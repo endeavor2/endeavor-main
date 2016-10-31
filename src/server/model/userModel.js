@@ -9,7 +9,6 @@ const sequelize = new Sequelize('d4qrsh611v83tq', 'nvvdmmyccvxpoc', 'V4aefMOIM1m
 
 const User = sequelize.define('user', {
   id: {
-    autoIncrement: true,
     type: Sequelize.INTEGER,
     primaryKey: true
   },
@@ -17,9 +16,6 @@ const User = sequelize.define('user', {
     type: Sequelize.TEXT
   },
   email_address: {
-    type: Sequelize.TEXT
-  },
-  password: {
     type: Sequelize.TEXT
   },
   createdAt: {
