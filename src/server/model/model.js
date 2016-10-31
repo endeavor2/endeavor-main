@@ -145,7 +145,7 @@ const Project_Interest = sequelize.define('project_interest', {
 });
 
 sequelize.sync({
-  logging: console.log,
+  //logging: console.log,
   force: true // true will drop the table and rebuild (for dev)
 }).then(() => {
   const users = [
@@ -261,32 +261,32 @@ sequelize.sync({
 
   User.bulkCreate(users, {validate: true})
   .catch((err) => {
-    console.log('Create Error: ', err);
+    console.log('Create Error Model264: ', err);
   });
 
   Project.bulkCreate(projects, {validate: true})
   .catch((err) => {
-    console.log('Create Error: ', err);
+    console.log('Create Error Model269: ', err);
   });
 
   Interest.bulkCreate(interests, {validate: true})
   .catch((err) => {
-    console.log('Create Error: ', err);
+    console.log('Create Error Model274: ', err);
   });
 
   User_Interest.bulkCreate(user_interests, {validate: true})
   .catch((err) => {
-    console.log('Create Error: ', err);
+    console.log('Create Error Model279: ', err);
   });
 
   User_Project.bulkCreate(user_projects, {validate: true})
   .catch((err) => {
-    console.log('Create Error: ', err);
+    console.log('Create Error Model284: ', err);
   });
 
   Project_Interest.bulkCreate(project_interests, {validate: true})
   .catch((err) => {
-    console.log('Create Error: ', err);
+    console.log('Create Error Model289: ', err);
   });
 
   // getRelatedProjects('patrick', () => {});
