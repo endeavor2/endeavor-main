@@ -33,6 +33,12 @@ passport.use(new GitHubStrategy({
   }
 ));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // Parse body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -67,7 +73,7 @@ app.get('/github/oauth/callback',
   });
 
 // Handle login
-app.get('/login', function(req, res){
+app.get('/login', function (req, res) {  
   res.redirect('/auth/github');
 });
 
@@ -77,7 +83,7 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-app.use(ensureAuthenticated);
+// app.use(ensureAuthenticated);
 
 //Handle gets
 app.get('/user/basic/:user', userCtrl.getUserInfoController);
@@ -93,12 +99,12 @@ app.get('/project/related_interests/:project', userCtrl.getProjectInterestsContr
 
 // Check if user is authenticated
 // Place this on any route you wish to protect
-function ensureAuthenticated(req, res, next) {
-  console.log('ensureAuthenticated called');
-  if (req.isAuthenticated()) { return next(); }
-  console.log('Some auth failure occured');
-  res.redirect('/login')
-}
+// function ensureAuthenticated(req, res, next) {
+//   console.log('ensureAuthenticated called');
+//   if (req.isAuthenticated()) { return next(); }
+//   console.log('Some auth failure occured');
+//   res.redirect('/login')
+// }
 
 // Establish server
 app.listen(3000, () => {

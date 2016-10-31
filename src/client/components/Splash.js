@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dashboard from  './Dashboard.js';
-import Signup from  './Signup.js';
+import Signup from './Signup.js';
+var xhr = new XMLHttpRequest();
 
 
 class Splash extends Component {
@@ -10,15 +11,7 @@ class Splash extends Component {
       <div>
         <button
           className = 'btn-primary'
-          onClick = {() => {
-            fetch('/login', {method: 'get'})
-              .then(() => {
-                this.props.showDashBoard();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }}
+          href = '/login'
           style = {{display: (this.props.splash) ? 'block' : 'none'}}
           type = 'button'>
           Log In

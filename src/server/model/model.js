@@ -1,3 +1,4 @@
+'use strict'
 const Sequelize = require('sequelize');
 const pg = require('pg');
 const sequelize = new Sequelize('d4qrsh611v83tq', 'nvvdmmyccvxpoc', 'V4aefMOIM1m_PAy2Xx8dcpDC9P', {
