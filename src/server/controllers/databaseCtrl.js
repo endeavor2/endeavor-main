@@ -1,6 +1,9 @@
 const User = require('./../model/userModel');
 const Interest = require('./../model/interestModel');
 const Project = require('./../model/projectModel');
+const User_Interest = require('./../model/userInterestModel');
+const Project_Interest = require('./../model/projectInterestModel');
+const User_Project = require('./../model/userProjectModel');
 
 
 
