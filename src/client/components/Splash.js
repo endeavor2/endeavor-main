@@ -9,13 +9,13 @@ class Splash extends Component {
   render() {
     return (
       <div>
-        <button
+        <a
           className = 'btn-primary'
           href = '/login'
           style = {{display: (this.props.splash) ? 'block' : 'none'}}
           type = 'button'>
           Log In
-        </button>
+        </a>
         <button
           className = 'btn-primary'
           onClick = {this.props.signUpClick}

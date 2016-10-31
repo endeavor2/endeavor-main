@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
+const User = require('./model/userModel')
 
 const userCtrl = require('./controllers/userCtrl.js');
 const GitHubStrategy = require('passport-github2').Strategy;
 const passport = require('passport');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 // Github creds
 var GITHUB_CLIENT_ID = "91216db770ffe6520a38";
@@ -40,21 +42,19 @@ app.use(function(req, res, next) {
 });
 
 // Parse body
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }), cookieParser());
 
 // Handle session
 // Session will reset after each server reset
 app.use(session({ secret: 'randomStringToSalt', resave: false, saveUninitialized: false }));
 
-// Register passport as Express middleware
-app.use(passport.initialize());
-
-// Register passport session handling as middleware
-app.use(passport.session());
+// Register passport as Express middleware. Register passport session handling as middleware
+app.use(passport.initialize(), passport.session());
 
 // Serve static
 app.use(express.static(path.join(__dirname, '../../bin')));
+
+// app.use(ensureAuthenticated);
 
 // Endpoint to handle github oAuth
 app.get('/auth/github',
@@ -69,7 +69,8 @@ app.get('/auth/github',
 app.get('/github/oauth/callback', 
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res, next) {
-    res.redirect('/');
+    let username; //need to set username to something
+    res.redirect(`/user/basic/${username}`);
   });
 
 // Handle login
@@ -83,8 +84,6 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-// app.use(ensureAuthenticated);
-
 //Handle gets
 app.get('/user/basic/:user', userCtrl.getUserInfoController);
 app.get('/user/related_projects/:user', userCtrl.getRelatedProjectsController);
@@ -95,16 +94,13 @@ app.get('/project/basic/:project', userCtrl.getProjectInfoController);
 app.get('/project/related_users/:project', userCtrl.getProjectUsersController);
 app.get('/project/related_interests/:project', userCtrl.getProjectInterestsController);
 
-
-
-// Check if user is authenticated
-// Place this on any route you wish to protect
-// function ensureAuthenticated(req, res, next) {
-//   console.log('ensureAuthenticated called');
-//   if (req.isAuthenticated()) { return next(); }
-//   console.log('Some auth failure occured');
-//   res.redirect('/login')
-// }
+// Check if user is authenticated, Place this on any route you wish to protect
+function ensureAuthenticated(req, res, next) {
+  console.log('ensureAuthenticated called');
+  if (req.isAuthenticated()) { return next(); }
+  console.log('Some auth failure occured');
+  res.redirect('/login')
+}
 
 // Establish server
 app.listen(3000, () => {

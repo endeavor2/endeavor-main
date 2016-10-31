@@ -1,6 +1,7 @@
 const databaseCtrl = require('./databaseCtrl');
 
 function getUserInfoController (req, res) {
+  console.log('THIS IS THE PASSPORT STUFF', req.user);
   const username = req.params.user;
   databaseCtrl.getUserData(username, (userData) => res.json(userData));
 }

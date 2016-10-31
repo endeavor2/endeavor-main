@@ -7,8 +7,8 @@ const User_Project = require('./../model/userProjectModel');
 
 
 
-function getUserData (username, callback) {
-  User.findOne({where: { username: username}}).then((data) => {
+function getUserData (sid, callback) {
+  User.findOne({where: { id: sid}}).then((data) => {
     return data ? callback(data.dataValues) : callback(data);
   });
 }
