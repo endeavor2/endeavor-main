@@ -1,8 +1,10 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('endeavor', 'dan', 'hello', {
+const pg = require('pg');
+const sequelize = new Sequelize('d4qrsh611v83tq', 'nvvdmmyccvxpoc', 'V4aefMOIM1m_PAy2Xx8dcpDC9P', {
 
-  host: 'localhost',
-  dialect: 'postgres'
+  host: 'ec2-54-235-95-102.compute-1.amazonaws.com',
+  dialect: 'postgres',
+  dialectOptions: { ssl: true }
 });
 
 const User = sequelize.define('user', {
