@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Profile from './Profile.js';
 import ProjectBlurb from './ProjectBlurb.js';
 
 
@@ -17,11 +16,14 @@ class Dashboard extends Component {
   //   })
   //   // <ProjectBlurb />
   // }
+  componentWillMount() {
+    this.props.setCurrUser(this.props.myUser);
+  }
   componentDidMount() {
     this.props.getSuggestedProjects();
   }
   generateProjBlurbs() {
-    return this.props.dashboardProj.map(proj => {
+    return this.props.mySuggestedProjects.map(proj => {
       return (
         <ProjectBlurb
           name = {proj.name}
@@ -35,13 +37,15 @@ class Dashboard extends Component {
     return (
       <div>
         <button
-          onClick = {this.props.showProfile}
+          className = 'btn-link'
+          onClick = {(event) => {
+            this.props.showProfile();
+            this.props.getUsersProjects(this.props.currUser);
+          }}
           style = {{display: (this.props.dashboard) ? 'block' : 'none'}}
           type = 'button'>
           Profile
         </button>
-        <Profile profile = {this.props.profile}/>
-
         <div style = {{display: (this.props.dashboard) ? 'block' : 'none'}}>
           {this.generateProjBlurbs()}
         </div>

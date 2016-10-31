@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('endeavor', 'nicholasnelson', 'ilovetesting', {
+const sequelize = new Sequelize('endeavor', 'dan', 'hello', {
 
   host: 'localhost',
   dialect: 'postgres'
@@ -145,7 +145,7 @@ const Project_Interest = sequelize.define('project_interest', {
 });
 
 sequelize.sync({
-  //logging: console.log,
+  logging: console.log,
   force: true // true will drop the table and rebuild (for dev)
 }).then(() => {
   const users = [
@@ -261,32 +261,32 @@ sequelize.sync({
 
   User.bulkCreate(users, {validate: true})
   .catch((err) => {
-    console.log('Create Error Model264: ', err);
+    console.log('Create Error: ', err);
   });
 
   Project.bulkCreate(projects, {validate: true})
   .catch((err) => {
-    console.log('Create Error Model269: ', err);
+    console.log('Create Error: ', err);
   });
 
   Interest.bulkCreate(interests, {validate: true})
   .catch((err) => {
-    console.log('Create Error Model274: ', err);
+    console.log('Create Error: ', err);
   });
 
   User_Interest.bulkCreate(user_interests, {validate: true})
   .catch((err) => {
-    console.log('Create Error Model279: ', err);
+    console.log('Create Error: ', err);
   });
 
   User_Project.bulkCreate(user_projects, {validate: true})
   .catch((err) => {
-    console.log('Create Error Model284: ', err);
+    console.log('Create Error: ', err);
   });
 
   Project_Interest.bulkCreate(project_interests, {validate: true})
   .catch((err) => {
-    console.log('Create Error Model289: ', err);
+    console.log('Create Error: ', err);
   });
 
   // getRelatedProjects('patrick', () => {});
@@ -305,7 +305,7 @@ function getRelatedProjects (username, callback) {
   Project.hasMany(User_Project, {foreignKey: 'project_id'});
   User_Project.belongsTo(User, {foreignKey: 'user_id'});
   User_Project.belongsTo(Project, {foreignKey: 'project_id'});
-  
+
   // For reference: https://github.com/sequelize/sequelize/issues/1775
   User_Project.findAll({include: [{ "model": User, "where" : { "username": username } }, Project ]})
   .then((userOptions) => {
@@ -323,7 +323,7 @@ function getRelatedInterests (username, callback) {
   Interest.hasMany(User_Interest, {foreignKey: 'interest_id'});
   User_Interest.belongsTo(User, {foreignKey: 'user_id'});
   User_Interest.belongsTo(Interest, {foreignKey: 'interest_id'});
-  
+
   // For reference: https://github.com/sequelize/sequelize/issues/1775
   User_Interest.findAll({include: [{ "model": User, "where" : { "username": username } }, Interest ]})
   .then((userOptions) => {
@@ -347,7 +347,7 @@ function getProjectUsers (name, callback) {
   Project.hasMany(User_Project, {foreignKey: 'project_id'});
   User_Project.belongsTo(User, {foreignKey: 'user_id'});
   User_Project.belongsTo(Project, {foreignKey: 'project_id'});
-  
+
   // For reference: https://github.com/sequelize/sequelize/issues/1775
   User_Project.findAll({include: [{ "model": Project, "where" : { "name": name } }, User ]})
   .then((userOptions) => {
@@ -365,7 +365,7 @@ function getProjectInterests (name, callback) {
   Project.hasMany(Project_Interest, {foreignKey: 'project_id'});
   Project_Interest.belongsTo(Interest, {foreignKey: 'interest_id'});
   Project_Interest.belongsTo(Project, {foreignKey: 'project_id'});
-  
+
   // For reference: https://github.com/sequelize/sequelize/issues/1775
   Project_Interest.findAll({include: [{ "model": Project, "where" : { "name": name } }, Interest ]})
   .then((userOptions) => {
@@ -381,9 +381,11 @@ function getProjectInterests (name, callback) {
 function getSuggestedProjects (username, callback) {
   getRelatedInterests(username, (interests) => {
 
+    console.log('interests', interests);
     const interestArr = interests.map((interest) => {
       return interest.keyword;
     });
+    console.log('interestArr', interestArr);
 
     Interest.hasMany(Project_Interest, {foreignKey: 'interest_id'});
     Project.hasMany(Project_Interest, {foreignKey: 'project_id'});
@@ -391,6 +393,7 @@ function getSuggestedProjects (username, callback) {
     Project_Interest.belongsTo(Project, {foreignKey: 'project_id'});
     Project_Interest.findAll({include: [{ "model": Interest, "where" : { "keyword": interestArr } }, Project ]})
     .then((userOptions) => {
+      console.log('userOptions', userOptions);
       const mappedUsers = userOptions.map( ele => {
         // Destructure Project object
         const {id, name, description, github_link} = ele.dataValues.project;
@@ -412,7 +415,7 @@ function getSuggestedProjects (username, callback) {
   // Project.hasMany(User_Project, {foreignKey: 'project_id'});
   // User_Project.belongsTo(User, {foreignKey: 'user_id'});
   // User_Project.belongsTo(Project, {foreignKey: 'project_id'});
-  
+
   // // For reference: https://github.com/sequelize/sequelize/issues/1775
   // User_Project.findAll({include: [{ "model": User, "where" : { "username": username } }, Project ]})
   // .then((userOptions) => {
@@ -425,7 +428,7 @@ function getSuggestedProjects (username, callback) {
   // });
 }
 
-module.exports = { 
+module.exports = {
   getUserData,
   getRelatedProjects,
   getRelatedInterests,

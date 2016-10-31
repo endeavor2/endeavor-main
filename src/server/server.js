@@ -78,16 +78,12 @@ app.get('/logout', function(req, res){
 });
 
 app.use(ensureAuthenticated);
-//Handle gets
-app.get('/user/:user', routeControllers.getAllDataForUser);
 
+//Handle gets
 app.get('/user/basic/:user', routeControllers.getUserInfoController);
 app.get('/user/related_projects/:user', routeControllers.getRelatedProjectsController);
 app.get('/user/related_interests/:user', routeControllers.getRelatedInterestsController);
 app.get('/user/suggested_projects/:user', routeControllers.getSuggestedProjectsController);
-
-
-app.get('/project/:project', routeControllers.getAllDataForProject);
 
 app.get('/project/basic/:project', routeControllers.getProjectInfoController);
 app.get('/project/related_users/:project', routeControllers.getProjectUsersController);

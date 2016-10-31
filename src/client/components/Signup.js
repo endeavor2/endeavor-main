@@ -5,6 +5,8 @@ class Signup extends Component {
   render() {
     return (
       <div style = {{display: (this.props.signup) ? 'block' : 'none'}}>
+        name <input name='name' type='text' placeholder='full name'></input>
+        email <input name='email' type='text'></input>
         <button onClick = { this.props.showDashBoard }>Submit</button>
       </div>
     )
