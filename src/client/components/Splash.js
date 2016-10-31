@@ -9,12 +9,22 @@ class Splash extends Component {
     return (
       <div>
         <button
-          onClick = {this.props.showDashBoard}
+          className = 'btn-primary'
+          onClick = {() => {
+            fetch('/login', {method: 'get'})
+              .then(() => {
+                this.props.showDashBoard();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
           style = {{display: (this.props.splash) ? 'block' : 'none'}}
           type = 'button'>
           Log In
         </button>
         <button
+          className = 'btn-primary'
           onClick = {this.props.signUpClick}
           style = {{display: (this.props.splash) ? 'block' : 'none'}}
           type = 'button'>

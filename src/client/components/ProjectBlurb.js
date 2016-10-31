@@ -3,11 +3,11 @@ import React, {Component} from 'react';
 class ProjectBlurb extends Component {
   render() {
     return (
-      <div>
+      <div className='blurb'>
         <div className='projName'>{this.props.name}</div>
         <div className='projDesc'>{this.props.desc}</div>
         <div className='projGitLink'>
-          <a href={this.props.git}>Github link</a>
+          <a href={this.props.git}>{this.props.git}</a>
         </div>
       </div>
     );
