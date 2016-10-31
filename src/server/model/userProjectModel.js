@@ -32,3 +32,5 @@ const User_Project = sequelize.define('user_project', {
    default: Date.now
  },
 });
+
+module.exports = User_Project;

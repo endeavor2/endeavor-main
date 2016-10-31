@@ -29,3 +29,5 @@ const Project_Interest = sequelize.define('project_interest', {
    default: Date.now
  },
 });
+
+module.exports = Project_Interest;

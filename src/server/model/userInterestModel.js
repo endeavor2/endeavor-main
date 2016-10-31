@@ -29,3 +29,5 @@ const User_Interest = sequelize.define('user_interest', {
    default: Date.now
  },
 });
+
+module.exports = User_Interest;
