@@ -7,7 +7,7 @@ const User_Project = require('./../model/userProjectModel');
 
 
 
-function getUserData (user, cb) {
+function setUserData (user, cb) {
   const id= user.id;
   const username = user.username;
   const email_address = user.emails[0].value;
@@ -16,6 +16,10 @@ function getUserData (user, cb) {
   .spread((user, created) => {
       cb(user)
     })
+}
+
+function getUserData (cookieId, cb) {
+  return User.findOne({where: { id: cookieId }});
 }
 
 function getRelatedProjects (username, callback) {
@@ -132,6 +136,7 @@ function getSuggestedProjects (username, callback) {
 }
 
 module.exports = {
+  setUserData,
   getUserData,
   getRelatedProjects,
   getRelatedInterests,
