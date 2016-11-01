@@ -4,6 +4,10 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const userCtrl = require('./controllers/userCtrl.js');
+
+//stuff Julia added
+const gitHubCtrl = require('./controllers/gitHubCtrl.js');
+
 const GitHubStrategy = require('passport-github2').Strategy;
 const passport = require('passport');
 const session = require('express-session');
@@ -81,10 +85,8 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-app.get('/start', function(req, res) {
-    res.sendFile(path.join(__dirname + '/start.html'));
-});
-
+//play with the API
+app.get('/repos', gitHubCtrl.getGitHubData);
 
 // app.use(ensureAuthenticated);
 
