@@ -3,19 +3,6 @@ import ProjectBlurb from './ProjectBlurb.js';
 
 
 class Dashboard extends Component {
-
-  // getMatchedProjects() {
-  //   fetch('./user/suggested_projects/hoon/', {
-  //     method: 'get'
-  //   }).then(response => {
-  //     return response.json();
-  //   }).then(data => {
-  //     console.log(data);
-  //   }).catch(error => {
-  //     console.log('get request error!');
-  //   })
-  //   // <ProjectBlurb />
-  // }
   componentWillMount() {
     this.props.setCurrUser(this.props.myUser);
   }
@@ -34,6 +21,8 @@ class Dashboard extends Component {
     });
   }
   render() {
+  console.log('userinfo',this.props.userInfo);
+
     return (
       <div>
         <button

@@ -22,7 +22,7 @@ function getProjectInfoController (req, res) {
 
 function getProjectUsersController (req, res) {
   const project = req.params.project;
-  console.log('project', project);
+  // console.log('project', project);
   databaseCtrl.getProjectUsers(project, (projectData) => res.json(projectData));
 }
 

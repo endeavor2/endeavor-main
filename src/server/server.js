@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 
 const userCtrl = require('./controllers/userCtrl.js');
 const GitHubStrategy = require('passport-github2').Strategy;
@@ -33,11 +34,13 @@ passport.use(new GitHubStrategy({
   }
 ));
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+
+// app.use(function (req, res, next) {
+//   res.header('Access-Control-Allow-Credentials', true);
+//   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 // Parse body
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -53,6 +56,8 @@ app.use(passport.initialize());
 // Register passport session handling as middleware
 app.use(passport.session());
 
+// app.use(cors())
+
 // Serve static
 app.use(express.static(path.join(__dirname, '../../bin')));
 
@@ -64,14 +69,12 @@ app.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' 
 app.get('/github/oauth/callback',
   passport.authenticate('github', { successRedirect: '/user/basic', failureRedirect: '/login' }));
 
-  //   ,
   // function(req, res, next) {
   //   res.redirect('/');
   // });
 
 // Handle login
 app.get('/login', function (req, res) {
-  console.log('submitted')
   res.redirect('/auth/github');
 });
 
