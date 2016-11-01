@@ -2,8 +2,7 @@ const databaseCtrl = require('./databaseCtrl');
 
 function getUserInfoController (req, res) {
   console.log('THIS IS THE PASSPORT STUFF', req.user);
-  const username = req.params.user;
-  databaseCtrl.getUserData(username, (userData) => res.json(userData));
+  databaseCtrl.getUserData(req.user, (userData) => res.json(userData));
 }
 
 function getRelatedProjectsController (req, res) {
@@ -37,7 +36,7 @@ function getSuggestedProjectsController (req, res) {
   databaseCtrl.getSuggestedProjects(user, (projectData) => res.json(projectData));
 }
 
-module.exports = { 
+module.exports = {
   getUserInfoController,
   getRelatedProjectsController,
   getRelatedInterestsController,

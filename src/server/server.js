@@ -2,13 +2,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
-const User = require('./model/userModel')
 
 const userCtrl = require('./controllers/userCtrl.js');
 const GitHubStrategy = require('passport-github2').Strategy;
 const passport = require('passport');
 const session = require('express-session');
-const cookieParser = require('cookie-parser');
 
 // Github creds
 var GITHUB_CLIENT_ID = "91216db770ffe6520a38";
@@ -42,39 +40,38 @@ app.use(function(req, res, next) {
 });
 
 // Parse body
-app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }), cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Handle session
 // Session will reset after each server reset
 app.use(session({ secret: 'randomStringToSalt', resave: false, saveUninitialized: false }));
 
-// Register passport as Express middleware. Register passport session handling as middleware
-app.use(passport.initialize(), passport.session());
+// Register passport as Express middleware
+app.use(passport.initialize());
+
+// Register passport session handling as middleware
+app.use(passport.session());
 
 // Serve static
 app.use(express.static(path.join(__dirname, '../../bin')));
 
-// app.use(ensureAuthenticated);
-
 // Endpoint to handle github oAuth
-app.get('/auth/github',
-  passport.authenticate('github', { scope: [ 'user:email' ] }),
-  function(req, res){
-    // The request will be redirected to GitHub for authentication, so this
-    // function will not be called.
-  });
+app.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
 // Call back after intitial oAuth approval. Github redirects the user to here
 // TODO Look into redirecting to user intended destination on first login
-app.get('/github/oauth/callback', 
-  passport.authenticate('github', { failureRedirect: '/login' }),
-  function(req, res, next) {
-    let username; //need to set username to something
-    res.redirect(`/user/basic/${username}`);
-  });
+app.get('/github/oauth/callback',
+  passport.authenticate('github', { successRedirect: '/user/basic', failureRedirect: '/login' }));
+
+  //   ,
+  // function(req, res, next) {
+  //   res.redirect('/');
+  // });
 
 // Handle login
-app.get('/login', function (req, res) {  
+app.get('/login', function (req, res) {
+  console.log('submitted')
   res.redirect('/auth/github');
 });
 
@@ -84,8 +81,15 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+app.get('/start', function(req, res) {
+    res.sendFile(path.join(__dirname + '/start.html'));
+});
+
+
+// app.use(ensureAuthenticated);
+
 //Handle gets
-app.get('/user/basic/:user', userCtrl.getUserInfoController);
+app.get('/user/basic', userCtrl.getUserInfoController);
 app.get('/user/related_projects/:user', userCtrl.getRelatedProjectsController);
 app.get('/user/related_interests/:user', userCtrl.getRelatedInterestsController);
 app.get('/user/suggested_projects/:user', userCtrl.getSuggestedProjectsController);
@@ -94,13 +98,16 @@ app.get('/project/basic/:project', userCtrl.getProjectInfoController);
 app.get('/project/related_users/:project', userCtrl.getProjectUsersController);
 app.get('/project/related_interests/:project', userCtrl.getProjectInterestsController);
 
-// Check if user is authenticated, Place this on any route you wish to protect
-function ensureAuthenticated(req, res, next) {
-  console.log('ensureAuthenticated called');
-  if (req.isAuthenticated()) { return next(); }
-  console.log('Some auth failure occured');
-  res.redirect('/login')
-}
+
+
+// Check if user is authenticated
+// Place this on any route you wish to protect
+// function ensureAuthenticated(req, res, next) {
+//   console.log('ensureAuthenticated called');
+//   if (req.isAuthenticated()) { return next(); }
+//   console.log('Some auth failure occured');
+//   res.redirect('/login')
+// }
 
 // Establish server
 app.listen(3000, () => {

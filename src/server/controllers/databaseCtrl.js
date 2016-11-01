@@ -7,10 +7,15 @@ const User_Project = require('./../model/userProjectModel');
 
 
 
-function getUserData (sid, callback) {
-  User.findOne({where: { id: sid}}).then((data) => {
-    return data ? callback(data.dataValues) : callback(data);
-  });
+function getUserData (user, cb) {
+  const id= user.id;
+  const username = user.username;
+  const email_address = user.emails[0].value;
+
+  User.findOrCreate({where: { id: id, username: username, email_address: email_address}})
+  .spread((user, created) => {
+      cb(user)
+    })
 }
 
 function getRelatedProjects (username, callback) {
