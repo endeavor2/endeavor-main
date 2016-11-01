@@ -1,47 +1,22 @@
 const databaseCtrl = require('./databaseCtrl');
 
-function getUserInfoController (req, res) {
+function loginUser (req, res) {
   console.log('THIS IS THE PASSPORT STUFF', req.user);
-  databaseCtrl.getUserData(req.user, (userData) => res.json(userData));
+  databaseCtrl.setUserData(req.user, (userData) => {
+    res.cookie('cookieId', userData.id, { maxAge: 900000, httpOnly: true })
+    res.redirect('/');
+  });
 }
 
-function getRelatedProjectsController (req, res) {
-  const username = req.params.user;
-  databaseCtrl.getRelatedProjects(username, (projectData) => res.json(projectData));
-}
-
-function getRelatedInterestsController (req, res) {
-  const username = req.params.user;
-  databaseCtrl.getRelatedInterests(username, (projectData) => res.json(projectData));
-}
-
-function getProjectInfoController (req, res) {
-  const project = req.params.project;
-  databaseCtrl.getProjectInfo(project, (projectData) => res.json(projectData));
-}
-
-function getProjectUsersController (req, res) {
-  const project = req.params.project;
-  console.log('project', project);
-  databaseCtrl.getProjectUsers(project, (projectData) => res.json(projectData));
-}
-
-function getProjectInterestsController (req, res) {
-  const project = req.params.project;
-  databaseCtrl.getProjectInterests(project, (projectData) => res.json(projectData));
-}
-
-function getSuggestedProjectsController (req, res) {
-  const user = req.params.user;
-  databaseCtrl.getSuggestedProjects(user, (projectData) => res.json(projectData));
+function getUserInfo (req, res) {
+  databaseCtrl.getUserData(req.cookies.cookieId)
+  .then( (userData) => {
+    console.log(userData);
+    res.json(userData);
+  });
 }
 
 module.exports = {
-  getUserInfoController,
-  getRelatedProjectsController,
-  getRelatedInterestsController,
-  getProjectInfoController,
-  getProjectUsersController,
-  getProjectInterestsController,
-  getSuggestedProjectsController
+  loginUser,
+  getUserInfo
 };
