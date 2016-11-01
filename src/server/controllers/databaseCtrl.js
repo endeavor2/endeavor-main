@@ -18,6 +18,18 @@ function getUserData (user, cb) {
     })
 }
 
+function createProjects (projects) {
+
+  Project.bulkCreate(projects)
+    .then(function(err, response) {
+      if (err) {
+        // console.log(err);
+      } else {
+        res.json(response);
+      }
+    })
+}
+
 function getRelatedProjects (username, callback) {
   User.hasMany(User_Project, {foreignKey: 'user_id'});
   Project.hasMany(User_Project, {foreignKey: 'project_id'});
@@ -132,6 +144,7 @@ function getSuggestedProjects (username, callback) {
 }
 
 module.exports = {
+  createProjects,
   getUserData,
   getRelatedProjects,
   getRelatedInterests,
