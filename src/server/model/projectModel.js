@@ -9,17 +9,16 @@ const sequelize = new Sequelize('d4qrsh611v83tq', 'nvvdmmyccvxpoc', 'V4aefMOIM1m
 
 const Project = sequelize.define('project', {
   id: {
-    autoIncrement: true,
     type: Sequelize.INTEGER,
     primaryKey: true
   },
   name: {
     type: Sequelize.TEXT
   },
-  description: {
+  url: {
     type: Sequelize.TEXT
   },
-  github_link: {
+  description: {
     type: Sequelize.TEXT
   },
   createdAt: {
