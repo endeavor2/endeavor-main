@@ -28,7 +28,7 @@ class Dashboard extends Component {
           <SearchResults addProject={this.props.addProject} searchResults={this.props.searchResults}/>
         </div>
         <div>
-          <ProjectList myProjects={this.props.myProjects}/>
+          <ProjectList myProjects={this.props.myProjects} removeProject={this.props.removeProject}/>
         </div>
 
       </div>

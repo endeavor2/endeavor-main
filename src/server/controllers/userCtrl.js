@@ -37,10 +37,19 @@ function saveProject(req, res) {
   });
 }
 
+function deleteProject(req, res) {
+  console.log('This is the project to delete ', req.body);
+  databaseCtrl.deleteProject(req.body.id, req.cookies.cookieId)
+  .then( (data) => {
+    res.json(data);
+  });
+}
+
 module.exports = {
   loginUser,
   getUserInfo,
   getProjects,
   getUserProjects,
-  saveProject
+  saveProject,
+  deleteProject
 };
