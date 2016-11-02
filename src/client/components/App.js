@@ -24,6 +24,8 @@ class App extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.searchProjects = this.searchProjects.bind(this);
+    this.addProject = this.addProject.bind(this);
   }
 
   handleChange(event) {
@@ -31,17 +33,31 @@ class App extends Component {
   }
 
   handleSubmit(event) {
+    let searchArray = (this.state.searchValue).split(" ");
     $.ajax({
       url: '/search',
       method: 'POST',
-      body: this.state.searchValue,
+      body: {
+        searchArray: searchArray
+      },
       success: (data) => {
-        console.log('handlesubmit',data);
+        console.log(data);
         if(data !== null) this.setState({ searchResults: data });
         else console.log('no results')
       },
       error: (err) => console.error(err)
     });
+  }
+
+
+  searchProjects() {
+
+  }
+
+
+  addProject(event) {
+    let buttonId = event.target.id;
+    let element = event.
   }
 
   componentWillMount() {
@@ -85,9 +101,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-
-
-
