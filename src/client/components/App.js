@@ -106,27 +106,16 @@ class App extends Component {
         url: '/user/getInfo', method: 'GET',
         success: (data) => {
           // console.log(data);
-          if (data !== null) this.setState({ userInfo: data, showDashboard: true, showSplash: false, showNavbar: true });
+          if (data !== null) this.setState({ userInfo: data.user, myProjects: data.projects, showDashboard: true, showSplash: false, showNavbar: true });
           else console.log('no user with that username')
         },
         error: (err) => console.error(err)
       });
     }
-    // if (this.state.myProjects[0] === undefined) {
-    //   $.ajax({
-    //     url: '/user/getProjects', method: 'POST',
-    //     body: this.state.userInfo.projects,
-    //     success: (data) => {
-    //       // console.log(data);
-    //       if (data !== null) this.setState({ myProjects: data });
-    //       else console.log('no user with that username')
-    //     },
-    //     error: (err) => console.error(err)
-    //   });
-    // }
   }
 
   render() {
+    console.log(this.state.userInfo);
     return (
       <div>
         <Navbar
