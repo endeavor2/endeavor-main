@@ -51,12 +51,7 @@ app.use(session({ secret: 'randomStringToSalt', resave: false, saveUninitialized
 
 // Register passport as Express middleware
 // Register passport session handling as middleware
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-// app.use(cors())
-
+app.use(passport.initialize(), passport.session());
 // Serve static
 app.use(express.static(path.join(__dirname, '../../bin')));
 
@@ -85,6 +80,7 @@ app.get('/user/basic', userCtrl.loginUser);
 app.get('/user/getInfo', userCtrl.getUserInfo);
 //Handle posts to the search
 app.post('/search', userCtrl.getProjects);
+app.post('/likeproject', userCtrl.saveProject);
 
 // Establish server
 app.listen(3000, () => {

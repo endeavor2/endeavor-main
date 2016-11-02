@@ -22,8 +22,16 @@ function getProjects(req, res) {
   gitHubCtrl.getGitHubData(req, res);
 }
 
+function saveProject(req, res) {
+  databaseCtrl.saveProject(req.body, req.cookies.cookieId)
+  .then( (data) => {
+    res.json(data);
+  });
+}
+
 module.exports = {
   loginUser,
   getUserInfo,
-  getProjects
+  getProjects,
+  saveProject
 };
