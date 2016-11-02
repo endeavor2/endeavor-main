@@ -67,11 +67,24 @@ function saveProject (project, userId) {
   return Project.findOrCreate( { where: { id: project.id, name: project.name, url: project.url, description: project.description }});
 }
 
+function deleteProject (projectId, userId) {
+  console.log('project ', projectId, ' user ', userId);
+  return User.findOne( { where: {id: userId } } )
+  .then( (user) => {
+    let allProjects = [];
+    user.projects.forEach( (ele) => {
+      if(ele !== Number(projectId)) allProjects.push(ele);
+    })
+    return User.update({ projects: allProjects }, { where: {id: userId}});
+  })
+}
+
 
 module.exports = {
   createProjects,
   setUserData,
   getUserData,
   getUserProjects,
-  saveProject
+  saveProject,
+  deleteProject
 };

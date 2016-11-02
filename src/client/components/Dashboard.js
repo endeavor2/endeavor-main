@@ -33,7 +33,7 @@ class Dashboard extends Component {
         </div>
         <div className="projectDiv col-md-6">
           <h2>My Projects</h2>
-          <ProjectList myProjects={this.props.myProjects}/>
+          <ProjectList myProjects={this.props.myProjects} removeProject={this.props.removeProject}/>
         </div>
         </div>
       </div>

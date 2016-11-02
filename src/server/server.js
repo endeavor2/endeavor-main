@@ -11,8 +11,8 @@ const passport = require('passport');
 const session = require('express-session');
 
 // Github creds
-var GITHUB_CLIENT_ID = "91216db770ffe6520a38";
-var GITHUB_CLIENT_SECRET = "16f85dea805ab29c26321008f96b5d3813bbbc04";
+var GITHUB_CLIENT_ID = "37c4670372c22898f506";
+var GITHUB_CLIENT_SECRET = "59e14de27d755e953ff45e87c72a230ff73a3df1";
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -82,6 +82,7 @@ app.get('/user/getInfo', userCtrl.getUserInfo);
 app.post('/user/getProjects', userCtrl.getUserProjects);
 app.post('/search', userCtrl.getProjects);
 app.post('/likeProject', userCtrl.saveProject);
+app.post('/removeProject', userCtrl.deleteProject);
 
 // Establish server
 app.listen(3000, () => {
