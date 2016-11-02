@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { render } from 'react-dom'
 import Dashboard from './Dashboard'
 import Navbar from './Navbar'
@@ -24,12 +24,11 @@ class App extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.searchProjects = this.searchProjects.bind(this);
     this.addProject = this.addProject.bind(this);
   }
 
   handleChange(event) {
-    this.setState({searchValue: event.target.value});
+    this.setState({ searchValue: event.target.value });
   }
 
   handleSubmit(event) {
@@ -42,7 +41,7 @@ class App extends Component {
       },
       success: (data) => {
         console.log(data);
-        if(data !== null) this.setState({ searchResults: data });
+        if (data !== null) this.setState({ searchResults: data });
         else console.log('no results')
       },
       error: (err) => console.error(err)
@@ -50,23 +49,41 @@ class App extends Component {
   }
 
 
-  searchProjects() {
-
-  }
-
-
   addProject(event) {
     let buttonId = event.target.id;
-    let element = event.
+    let newSearchResults = [];
+    let newProjects = this.state.myProjects;
+    let foundVariable;
+
+    this.state.searchResults.forEach((project) => {
+      if (project.id === buttonId) {
+        newProjects.push(project);
+        foundVariable = project;
+      } else {
+        newSearchResults.push(project);
+      }
+    })
+
+    $.ajax({
+          url: '/likeProject',
+          method: 'POST',
+          body: foundVariable,
+          success: () => {
+            this.setState({ searchResults: newSearchResults })
+            this.setState({ myProjects: newProjects })
+          },
+          error: (err) => console.error(err)
+        });
   }
 
   componentWillMount() {
     console.log(this.state.userId);
-    if(this.state.userInfo.id === undefined) {
-      $.ajax({ url: '/user/getInfo', method: 'GET',
+    if (this.state.userInfo.id === undefined) {
+      $.ajax({
+        url: '/user/getInfo', method: 'GET',
         success: (data) => {
           console.log(data);
-          if(data !== null) this.setState({ userInfo: data, showDashboard: true, showSplash: false, showNavbar: true });
+          if (data !== null) this.setState({ userInfo: data, showDashboard: true, showSplash: false, showNavbar: true });
           else console.log('no user with that username')
         },
         error: (err) => console.error(err)
@@ -78,7 +95,7 @@ class App extends Component {
     return (
       <div>
         <Navbar
-          showNavbar={this.state.showNavbar}/>
+          showNavbar={this.state.showNavbar} />
         <h1>Endeavor 2: Rise of the Lycans</h1>
         <Dashboard
           userInfo={this.state.userInfo}
@@ -87,9 +104,10 @@ class App extends Component {
           searchResults={this.state.searchResults}
           value={this.state.searchValue}
           handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}/>
+          handleSubmit={this.handleSubmit}
+          addProject={this.addProject} />
         <Splash
-          showSplash={this.state.showSplash}/>
+          showSplash={this.state.showSplash} />
         {/*
           next we replace `<Child>` with `this.props.children`
           the router will figure out the children for us
