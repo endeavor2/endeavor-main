@@ -12,23 +12,11 @@ const Project = sequelize.define('project', {
     type: Sequelize.INTEGER,
     primaryKey: true
   },
-  name: {
-    type: Sequelize.TEXT
-  },
-  url: {
-    type: Sequelize.TEXT
-  },
-  description: {
-    type: Sequelize.TEXT
-  },
-  createdAt: {
-   type: Sequelize.DATE,
-   default: Date.now
- },
- updatedAt: {
-   type: Sequelize.DATE,
-   default: Date.now
- },
+  name: { type: Sequelize.TEXT },
+  url: { type: Sequelize.TEXT },
+  description: { type: Sequelize.TEXT },
+  createdAt: { type: Sequelize.DATE,  default: Date.now },
+  updatedAt: { type: Sequelize.DATE,  default: Date.now },
 });
 
 sequelize.sync({
