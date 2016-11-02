@@ -17,6 +17,7 @@ function getUserInfo (req, res) {
   });
 }
 
+
 function getProjects(req, res) {
   gitHubCtrl.getGitHubData(req, res);
 }

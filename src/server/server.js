@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
+
 const cookieParser = require('cookie-parser');
 const userCtrl = require('./controllers/userCtrl.js');
 const gitHubCtrl = require('./controllers/gitHubCtrl.js');
@@ -51,8 +52,6 @@ app.use(session({ secret: 'randomStringToSalt', resave: false, saveUninitialized
 // Register passport as Express middleware
 // Register passport session handling as middleware
 app.use(passport.initialize(), passport.session());
-
-
 // Serve static
 app.use(express.static(path.join(__dirname, '../../bin')));
 
@@ -67,7 +66,6 @@ app.get('/github/oauth/callback',
 
 // Handle login
 app.get('/login', function (req, res) {
-  console.log('submitted')
   res.redirect('/auth/github');
 });
 
