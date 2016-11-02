@@ -11,7 +11,7 @@ function getGitHubData(higherReq, higherRes) {
       let newObj = {};
       newObj.id = item.id;
       newObj.name = item.name;
-      newObj.url = item.url;
+      newObj.url = item.html_url;
       newObj.description = item.description;
       dataToStore.push(newObj);
     });
