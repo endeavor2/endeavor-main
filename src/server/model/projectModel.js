@@ -9,27 +9,14 @@ const sequelize = new Sequelize('d4qrsh611v83tq', 'nvvdmmyccvxpoc', 'V4aefMOIM1m
 
 const Project = sequelize.define('project', {
   id: {
-    autoIncrement: true,
     type: Sequelize.INTEGER,
     primaryKey: true
   },
-  name: {
-    type: Sequelize.TEXT
-  },
-  description: {
-    type: Sequelize.TEXT
-  },
-  github_link: {
-    type: Sequelize.TEXT
-  },
-  createdAt: {
-   type: Sequelize.DATE,
-   default: Date.now
- },
- updatedAt: {
-   type: Sequelize.DATE,
-   default: Date.now
- },
+  name: { type: Sequelize.TEXT },
+  url: { type: Sequelize.TEXT },
+  description: { type: Sequelize.TEXT },
+  createdAt: { type: Sequelize.DATE,  default: Date.now },
+  updatedAt: { type: Sequelize.DATE,  default: Date.now },
 });
 
 sequelize.sync({
