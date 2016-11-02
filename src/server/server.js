@@ -51,7 +51,9 @@ app.use(session({ secret: 'randomStringToSalt', resave: false, saveUninitialized
 
 // Register passport as Express middleware
 // Register passport session handling as middleware
-app.use(passport.session(), passport.initialize());
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // app.use(cors())
 
