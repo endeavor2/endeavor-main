@@ -27,7 +27,7 @@ class Dashboard extends Component {
           <input value={this.props.searchValue} onChange={this.props.handleChange} type="text"/>
           <button type="submit" onClick={this.props.handleSubmit}>Show me projects!</button>
           <br/>
-          <SearchResults searchResults={this.props.searchResults}/>
+          <SearchResults addProject={this.props.addProject} searchResults={this.props.searchResults}/>
         </div>
         <div>
           <ProjectList myProjects={this.props.myProjects}/>
