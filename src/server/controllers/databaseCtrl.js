@@ -21,7 +21,6 @@ function setUserData (user, cb) {
 }
 
 function createProjects (projects) {
-
   Project.bulkCreate(projects)
     .then(function(err, response) {
       if (err) {

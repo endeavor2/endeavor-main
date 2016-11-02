@@ -1,4 +1,5 @@
 const databaseCtrl = require('./databaseCtrl');
+const gitHubCtrl = require('./gitHubCtrl');
 
 function loginUser (req, res) {
   console.log('THIS IS THE PASSPORT STUFF', req.user);
@@ -16,7 +17,12 @@ function getUserInfo (req, res) {
   });
 }
 
+function getProjects(req, res) {
+  gitHubCtrl.getGitHubData(req, res);
+}
+
 module.exports = {
   loginUser,
-  getUserInfo
+  getUserInfo,
+  getProjects
 };
