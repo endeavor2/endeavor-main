@@ -24,7 +24,6 @@ class App extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.searchProjects = this.searchProjects.bind(this);
   }
 
   handleChange(event) {
@@ -37,17 +36,12 @@ class App extends Component {
       method: 'POST',
       body: this.state.searchValue,
       success: (data) => {
-        console.log(data);
+        console.log('handlesubmit',data);
         if(data !== null) this.setState({ searchResults: data });
         else console.log('no results')
       },
       error: (err) => console.error(err)
     });
-  }
-
-
-  searchProjects() {
-
   }
 
   componentWillMount() {
@@ -91,3 +85,9 @@ class App extends Component {
 }
 
 export default App;
+
+
+
+
+
+

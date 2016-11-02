@@ -10,6 +10,8 @@ class Dashboard extends Component {
   }
 
   render() {
+  console.log('userinfo',this.props.userInfo);
+
     return (
       <div className="dashboard" style={{display: (this.props.showDashboard) ? 'block' : 'none'}}>
         <div className="welcome">
