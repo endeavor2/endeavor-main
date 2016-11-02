@@ -36,7 +36,12 @@ function getUserData (cookieId, cb) {
 }
 
 function saveProject (project, userId) {
-  
+  User.findOne( { where: {id: userId } } )
+  .then( (user) => {
+    let allProjects = user.projects;
+    allProjects.push(project.id);
+    User.update({ projects: allProjects }, { where: {id: userId}});
+  });
   return Project.findOrCreate( { where: { id: project.id, name: project.name, url: project.url, description: project.description }});
 }
 
