@@ -35,9 +35,15 @@ function getUserData (cookieId, cb) {
   return User.findOne({where: { id: cookieId }});
 }
 
+function saveProject (project, userId) {
+
+  return Project.findOrCreate( { where: { id: project.id, name: project.name, url: project.url, description: project.description }});
+}
+
 
 module.exports = {
   createProjects,
   setUserData,
-  getUserData
+  getUserData,
+  saveProject
 };

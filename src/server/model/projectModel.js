@@ -20,8 +20,7 @@ const Project = sequelize.define('project', {
 });
 
 sequelize.sync({
-  logging: console.log,
-  force: true
+  force: false
 });
 
 module.exports = Project;

@@ -27,7 +27,6 @@ const Interest = sequelize.define('interest', {
 });
 
 sequelize.sync({
-  logging: console.log,
   force: true
 });
 
