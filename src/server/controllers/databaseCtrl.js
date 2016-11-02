@@ -36,7 +36,7 @@ function getUserData (cookieId) {
   return User.findOne({where: { id: cookieId }})
   .then( (user) => {
     userData.user = user;
-    if(user.projects !== null) {
+    if(user !== null && user.projects !== null) {
       return Promise.all(user.projects.map((project) => {
         return Project.findOne( { where: {id: project}});
       }));
@@ -60,7 +60,7 @@ function getUserProjects (user) {
 function saveProject (project, userId) {
   User.findOne( { where: {id: userId } } )
   .then( (user) => {
-    let allProjects = user.projects;
+    let allProjects = user.projects === null ? [] : user.projects;
     allProjects.push(project.id);
     User.update({ projects: allProjects }, { where: {id: userId}});
   });

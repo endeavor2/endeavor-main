@@ -3,7 +3,7 @@ import ProjectBlurb from './ProjectBlurb.js';
 
 class Profile extends Component {
   componentWillMount() {
-    console.log('currUser', this.props.currUser);
+    // console.log('currUser', this.props.currUser);
     // this.props.getUsersProjects(this.props.currUser);
   }
   generateUsersProjBlurbs() {
@@ -18,7 +18,7 @@ class Profile extends Component {
     });
   }
   render() {
-    console.log(this.props.profile);
+    // console.log(this.props.profile);
     return (
       <div style = {{display: (this.props.profile) ? 'block' : 'none'}}>
         <h2>My Profile</h2>

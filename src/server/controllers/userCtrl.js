@@ -17,6 +17,7 @@ function getUserInfo (req, res) {
   });
 }
 
+
 function getProjects(req, res) {
   gitHubCtrl.getGitHubData(req, res);
 }
@@ -29,6 +30,7 @@ function getUserProjects(req, res) {
 }
 
 function saveProject(req, res) {
+  console.log('This is the project to save ', req.body);
   databaseCtrl.saveProject(req.body, req.cookies.cookieId)
   .then( (data) => {
     res.json(data);
