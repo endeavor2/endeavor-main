@@ -25,6 +25,7 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.addProject = this.addProject.bind(this);
+    this.removeProject = this.removeProject.bind(this);
   }
 
   handleChange(event) {
@@ -72,6 +73,21 @@ class App extends Component {
       error: (err) => console.error(err)
     });
   }
+  removeProject(event) {
+    let projectToDelete = event.target.id;
+    let newProjects = [];
+    this.state.myProjects.forEach( (ele) => {if (ele.id !== Number(projectToDelete)) newProjects.push(ele)});
+    $.ajax({
+      url: '/removeProject',
+      method: 'POST',
+      data: { id: projectToDelete },
+      success: () => {
+        console.log('success: new projects ', newProjects)
+        this.setState({ myProjects: newProjects })
+      },
+      error: (err) => console.error(err)
+    });
+  }
 
   componentWillMount() {
     // console.log(this.state.userId);
@@ -104,7 +120,8 @@ class App extends Component {
           value={this.state.searchValue}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-          addProject={this.addProject} />
+          addProject={this.addProject}
+          removeProject={this.removeProject} />
         <Splash
           showSplash={this.state.showSplash} />
         {/*
