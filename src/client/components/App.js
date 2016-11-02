@@ -20,11 +20,34 @@ class App extends Component {
       showDashboard: false,
       showNavbar: false,
       showSplash: true,
+      searchValue: "",
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.searchProjects = this.searchProjects.bind(this);
   }
 
-  
+  handleChange(event) {
+    this.setState({searchValue: event.target.value});
+  }
+
+  handleSubmit(event) {
+    let searchArray = (this.state.searchValue).split(" ");
+    $.ajax({
+      url: '/search',
+      method: 'POST',
+      body: {
+        searchArray: searchArray
+      },
+      success: (data) => {
+        console.log(data);
+        if(data !== null) this.setState({ searchResults: data });
+        else console.log('no results')
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
 
   searchProjects() {
 
@@ -51,9 +74,13 @@ class App extends Component {
           showNavbar={this.state.showNavbar}/>
         <h1>Endeavor 2: Rise of the Lycans</h1>
         <Dashboard
+          userInfo={this.state.userInfo}
           showDashboard={this.state.showDashboard}
           myProjects={this.state.myProjects}
-          searchResults={this.state.searchResults}/>
+          searchResults={this.state.searchResults}
+          value={this.state.searchValue}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}/>
         <Splash
           showSplash={this.state.showSplash}/>
         {/*
