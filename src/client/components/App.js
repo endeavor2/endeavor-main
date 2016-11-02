@@ -40,7 +40,6 @@ class App extends Component {
         searchArray: searchArray
       },
       success: (data) => {
-        console.log(data);
         if (data !== null) this.setState({ searchResults: data });
         else console.log('no results')
       },
@@ -50,10 +49,14 @@ class App extends Component {
 
 
   addProject(event) {
+    console.log('adding project button');
+    
     let buttonId = event.target.id;
     let newSearchResults = [];
     let newProjects = this.state.myProjects;
     let foundVariable;
+    
+    
 
     this.state.searchResults.forEach((project) => {
       if (project.id === buttonId) {
@@ -64,31 +67,47 @@ class App extends Component {
       }
     })
 
+        console.log(buttonId);
+    console.log('new Projects', newProjects);
+    console.log('new search', newSearchResults);
+
     $.ajax({
-          url: '/likeProject',
-          method: 'POST',
-          body: foundVariable,
-          success: () => {
-            this.setState({ searchResults: newSearchResults })
-            this.setState({ myProjects: newProjects })
-          },
-          error: (err) => console.error(err)
-        });
+      url: '/likeProject',
+      method: 'POST',
+      body: foundVariable,
+      success: () => {
+        this.setState({ searchResults: newSearchResults })
+        this.setState({ myProjects: newProjects })
+      },
+      error: (err) => console.error(err)
+    });
   }
 
   componentWillMount() {
-    console.log(this.state.userId);
+    // console.log(this.state.userId);
     if (this.state.userInfo.id === undefined) {
       $.ajax({
         url: '/user/getInfo', method: 'GET',
         success: (data) => {
-          console.log(data);
+          // console.log(data);
           if (data !== null) this.setState({ userInfo: data, showDashboard: true, showSplash: false, showNavbar: true });
           else console.log('no user with that username')
         },
         error: (err) => console.error(err)
       });
     }
+    // if (this.state.myProjects[0] === undefined) {
+    //   $.ajax({
+    //     url: '/user/getProjects', method: 'POST',
+    //     body: this.state.userInfo.projects,
+    //     success: (data) => {
+    //       // console.log(data);
+    //       if (data !== null) this.setState({ myProjects: data });
+    //       else console.log('no user with that username')
+    //     },
+    //     error: (err) => console.error(err)
+    //   });
+    // }
   }
 
   render() {
