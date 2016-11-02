@@ -32,15 +32,14 @@ class App extends Component {
   }
 
   handleSubmit(event) {
-    console.log('Making a search with ', this.state.searchValue);
+    let searchArray = (this.state.searchValue).split(" ");
     $.ajax({
       url: '/search',
       method: 'POST',
-      data: {
-        searchTerms: this.state.searchValue
+      body: {
+        searchArray: searchArray
       },
       success: (data) => {
-        console.log(data);
         if (data !== null) this.setState({ searchResults: data });
         else console.log('no results')
       },
@@ -51,22 +50,33 @@ class App extends Component {
 
   addProject(event) {
     console.log('adding project button');
-    let projectData = event.target.name.split(',');
-    const projectToAdd = {
-      id: projectData[0],
-      name: projectData[1],
-      description: projectData[2],
-      url: projectData[3]
-    }
+
+    let buttonId = event.target.id;
+    let newSearchResults = [];
     let newProjects = this.state.myProjects;
-    newProjects.push(projectToAdd);
+    let foundVariable;
+
+
+
+    this.state.searchResults.forEach((project) => {
+      if (project.id === buttonId) {
+        newProjects.push(project);
+        foundVariable = project;
+      } else {
+        newSearchResults.push(project);
+      }
+    })
+
+    console.log(buttonId);
     console.log('new Projects', newProjects);
+    console.log('new search', newSearchResults);
 
     $.ajax({
       url: '/likeProject',
       method: 'POST',
-      data: projectToAdd,
+      body: foundVariable,
       success: () => {
+        this.setState({ searchResults: newSearchResults })
         this.setState({ myProjects: newProjects })
       },
       error: (err) => console.error(err)
@@ -79,23 +89,32 @@ class App extends Component {
       $.ajax({
         url: '/user/getInfo', method: 'GET',
         success: (data) => {
-          console.log(data);
-          if(data !== null) this.setState({ userInfo: data.user, myProjects: data.projects, showDashboard: true, showSplash: false, showNavbar: true });
+          // console.log(data);
+          if (data !== null) this.setState({ userInfo: data, showDashboard: true, showSplash: false, showNavbar: true });
           else console.log('no user with that username')
         },
         error: (err) => console.error(err)
       });
     }
+    // if (this.state.myProjects[0] === undefined) {
+    //   $.ajax({
+    //     url: '/user/getProjects', method: 'POST',
+    //     body: this.state.userInfo.projects,
+    //     success: (data) => {
+    //       // console.log(data);
+    //       if (data !== null) this.setState({ myProjects: data });
+    //       else console.log('no user with that username')
+    //     },
+    //     error: (err) => console.error(err)
+    //   });
+    // }
   }
 
   render() {
-    console.log('Rendering: here is the myProjects array ', this.state.myProjects);
-    console.log('Rendering: here is the array of search results ', this.state.searchResults);
     return (
       <div>
         <Navbar
           showNavbar={this.state.showNavbar} />
-        <h1>Endeavor 2: Rise of the Lycans</h1>
         <Dashboard
           userInfo={this.state.userInfo}
           showDashboard={this.state.showDashboard}

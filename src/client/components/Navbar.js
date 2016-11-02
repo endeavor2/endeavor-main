@@ -5,8 +5,9 @@ class Navbar extends Component {
 
   render() {
     return (
-      <div className = "navbar" style = {{display: (this.props.showNavbar) ? 'block' : 'none'}}>
-        <ul>
+      <div className="navbar navbar-default" style = {{display: (this.props.showNavbar) ? 'block' : 'none'}}>
+        <img className="navbar-brand" id="octocat" src='http://cameronmcefee.com/img/work/the-octocat/codercat.jpg' />
+        <ul className="nav navbar-nav">
           <li><Link to={'/dashboard'}>Dashboard</Link></li>
         </ul>
       </div>

@@ -6,15 +6,13 @@ class SearchResults extends Component {
 //still need to pass props to each Project
   render() {
     let projects = this.props.searchResults.map( (ele, index) => {
-      return (<li key={`sr${index}`}><Project data={ele} />
-      <button onClick={this.props.addProject} name={`${ele.id},${ele.name},${ele.description},${ele.url}`} >Add Project</button></li>)
+      return (<div key={`sr${index}`}><Project data={ele} />
+      <button className="btn btn-default" onClick={this.props.addProject} name={`${ele.id},${ele.name},${ele.description},${ele.url}`} >Add Project</button></div>)
     });
 
     return (
       <div className="project-list">
-        <ul>
-          {projects}
-        </ul>
+        {projects}
       </div>
     )
   }
