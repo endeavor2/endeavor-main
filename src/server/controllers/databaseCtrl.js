@@ -31,8 +31,24 @@ function createProjects (projects) {
     })
 }
 
-function getUserData (cookieId, cb) {
-  return User.findOne({where: { id: cookieId }});
+function getUserData (cookieId) {
+  var userData = { user: {}, projects: [] };
+  return User.findOne({where: { id: cookieId }})
+  .then( (user) => {
+    userData.user = user;
+    if(user !== null && user.projects !== null) {
+      return Promise.all(user.projects.map((project) => {
+        return Project.findOne( { where: {id: project}});
+      }));
+    }
+    else {
+      return [];
+    }
+  })
+  .then( (projects) => {
+    userData.projects = projects;
+    return userData;
+  })
 }
 
 function getUserProjects (user) {
@@ -44,7 +60,7 @@ function getUserProjects (user) {
 function saveProject (project, userId) {
   User.findOne( { where: {id: userId } } )
   .then( (user) => {
-    let allProjects = user.projects;
+    let allProjects = user.projects === null ? [] : user.projects;
     allProjects.push(project.id);
     User.update({ projects: allProjects }, { where: {id: userId}});
   });
