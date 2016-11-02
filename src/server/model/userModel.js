@@ -18,6 +18,18 @@ const User = sequelize.define('user', {
   email_address: {
     type: Sequelize.TEXT
   },
+  name: {
+    type: Sequelize.TEXT
+  },
+  company: {
+    type: Sequelize.TEXT
+  },
+  bio: {
+    type: Sequelize.TEXT
+  },
+  url: {
+    type: Sequelize.TEXT
+  },
   createdAt: {
    type: Sequelize.DATE,
    default: Date.now
