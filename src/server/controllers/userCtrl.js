@@ -22,6 +22,13 @@ function getProjects(req, res) {
   gitHubCtrl.getGitHubData(req, res);
 }
 
+function getUserProjects(req, res) {
+  databaseCtrl.getUserProjects(req.body)
+  .then( (data) => {
+    res.json(data);
+  });
+}
+
 function saveProject(req, res) {
   databaseCtrl.saveProject(req.body, req.cookies.cookieId)
   .then( (data) => {
@@ -33,5 +40,6 @@ module.exports = {
   loginUser,
   getUserInfo,
   getProjects,
+  getUserProjects,
   saveProject
 };

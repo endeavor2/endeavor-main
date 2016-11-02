@@ -79,8 +79,9 @@ app.get('/logout', function(req, res){
 app.get('/user/basic', userCtrl.loginUser);
 app.get('/user/getInfo', userCtrl.getUserInfo);
 //Handle posts to the search
+app.post('/user/getProjects', userCtrl.getUserProjects);
 app.post('/search', userCtrl.getProjects);
-app.post('/likeproject', userCtrl.saveProject);
+app.post('/likeProject', userCtrl.saveProject);
 
 // Establish server
 app.listen(3000, () => {

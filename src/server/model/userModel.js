@@ -30,6 +30,9 @@ const User = sequelize.define('user', {
   url: {
     type: Sequelize.TEXT
   },
+  projects: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+  },
   createdAt: {
    type: Sequelize.DATE,
    default: Date.now
@@ -41,7 +44,7 @@ const User = sequelize.define('user', {
 });
 
 sequelize.sync({
-  force: false
+  force: true
 })
 
 module.exports = User;

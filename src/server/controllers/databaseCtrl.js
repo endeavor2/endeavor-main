@@ -35,8 +35,19 @@ function getUserData (cookieId, cb) {
   return User.findOne({where: { id: cookieId }});
 }
 
+function getUserProjects (user) {
+  return Promise.all(user.projects.map((project) => {
+    return Project.findOne( { where: {id: project}});
+  }));
+}
+
 function saveProject (project, userId) {
-  
+  User.findOne( { where: {id: userId } } )
+  .then( (user) => {
+    let allProjects = user.projects;
+    allProjects.push(project.id);
+    User.update({ projects: allProjects }, { where: {id: userId}});
+  });
   return Project.findOrCreate( { where: { id: project.id, name: project.name, url: project.url, description: project.description }});
 }
 
@@ -45,5 +56,6 @@ module.exports = {
   createProjects,
   setUserData,
   getUserData,
+  getUserProjects,
   saveProject
 };
