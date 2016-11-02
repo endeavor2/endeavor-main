@@ -32,13 +32,10 @@ class App extends Component {
   }
 
   handleSubmit(event) {
-    let searchArray = (this.state.searchValue).split(" ");
     $.ajax({
       url: '/search',
       method: 'POST',
-      body: {
-        searchArray: searchArray
-      },
+      body: this.state.searchValue,
       success: (data) => {
         console.log(data);
         if(data !== null) this.setState({ searchResults: data });
