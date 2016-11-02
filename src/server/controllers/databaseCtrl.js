@@ -36,7 +36,7 @@ function getUserData (cookieId, cb) {
 }
 
 function saveProject (project, userId) {
-
+  
   return Project.findOrCreate( { where: { id: project.id, name: project.name, url: project.url, description: project.description }});
 }
 

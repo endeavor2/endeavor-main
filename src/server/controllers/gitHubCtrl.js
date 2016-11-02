@@ -15,7 +15,7 @@ function getGitHubData(higherReq, higherRes) {
       newObj.description = item.description;
       dataToStore.push(newObj);
     });
-    res.json(dataToStore);
+    higherRes.json(dataToStore);
   })
 };
 
