@@ -3,12 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-
 const userCtrl = require('./controllers/userCtrl.js');
-
-//stuff Julia added
 const gitHubCtrl = require('./controllers/gitHubCtrl.js');
-
 const GitHubStrategy = require('passport-github2').Strategy;
 const passport = require('passport');
 const session = require('express-session');
@@ -53,10 +49,8 @@ app.use(bodyParser.urlencoded({ extended: true }), bodyParser.json(), cookiePars
 app.use(session({ secret: 'randomStringToSalt', resave: false, saveUninitialized: false }));
 
 // Register passport as Express middleware
-app.use(passport.initialize());
-
 // Register passport session handling as middleware
-app.use(passport.session());
+app.use(passport.session(), passport.initialize());
 
 // Serve static
 app.use(express.static(path.join(__dirname, '../../bin')));
@@ -82,23 +76,11 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-//play with the API
-app.get('/repos', gitHubCtrl.getGitHubData);
-
-// app.use(ensureAuthenticated);
-
 //Handle gets
 app.get('/user/basic', userCtrl.loginUser);
 app.get('/user/getInfo', userCtrl.getUserInfo);
-
-// Check if user is authenticated
-// Place this on any route you wish to protect
-// function ensureAuthenticated(req, res, next) {
-//   console.log('ensureAuthenticated called');
-//   if (req.isAuthenticated()) { return next(); }
-//   console.log('Some auth failure occured');
-//   res.redirect('/login')
-// }
+//Handle posts to the search
+app.post('/search', userCtrl.getProjects);
 
 // Establish server
 app.listen(3000, () => {
