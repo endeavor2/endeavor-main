@@ -33,16 +33,16 @@ class App extends Component {
   }
 
   handleSubmit(event) {
-    let searchArray = (this.state.searchValue).split(" ");
     $.ajax({
       url: '/search',
       method: 'POST',
-      body: {
-        searchArray: searchArray
+      data: {
+        searchTerms: this.state.searchValue
       },
       success: (data) => {
+        console.log(data);
         if (data !== null) this.setState({ searchResults: data });
-        else console.log('no results')
+        else console.log('no results');
       },
       error: (err) => console.error(err)
     });
@@ -50,34 +50,21 @@ class App extends Component {
 
 
   addProject(event) {
-    console.log('adding project button');
-
-    let buttonId = event.target.id;
-    let newSearchResults = [];
+    let stuffToAdd = event.target.name.split(',');
+    let projectToAdd = {
+      id: stuffToAdd[0],
+      name: stuffToAdd[1],
+      description: stuffToAdd[2],
+      url: stuffToAdd[3]
+    }
     let newProjects = this.state.myProjects;
-    let foundVariable;
-
-
-
-    this.state.searchResults.forEach((project) => {
-      if (project.id === buttonId) {
-        newProjects.push(project);
-        foundVariable = project;
-      } else {
-        newSearchResults.push(project);
-      }
-    })
-
-    console.log(buttonId);
-    console.log('new Projects', newProjects);
-    console.log('new search', newSearchResults);
+    newProjects.push(projectToAdd);
 
     $.ajax({
       url: '/likeProject',
       method: 'POST',
-      body: foundVariable,
+      data: projectToAdd,
       success: () => {
-        this.setState({ searchResults: newSearchResults })
         this.setState({ myProjects: newProjects })
       },
       error: (err) => console.error(err)
@@ -85,8 +72,9 @@ class App extends Component {
   }
   removeProject(event) {
     let projectToDelete = event.target.id;
+    console.log(projectToDelete);
     let newProjects = [];
-    this.state.myProjects.forEach( (ele) => {if (ele.id !== Number(projectToDelete)) newProjects.push(ele)});
+    this.state.myProjects.forEach( (ele) => {if (Number(ele.id) !== Number(projectToDelete)) newProjects.push(ele)});
     $.ajax({
       url: '/removeProject',
       method: 'POST',
@@ -100,14 +88,14 @@ class App extends Component {
   }
 
   componentWillMount() {
-    // console.log(this.state.userId);
+    console.log(this.state.userInfo);
     if (this.state.userInfo.id === undefined) {
       $.ajax({
         url: '/user/getInfo', method: 'GET',
         success: (data) => {
           // console.log(data);
           if (data !== null) this.setState({ userInfo: data.user, myProjects: data.projects, showDashboard: true, showSplash: false, showNavbar: true });
-          else console.log('no user with that username')
+          else console.log('no user with that username');
         },
         error: (err) => console.error(err)
       });
@@ -115,7 +103,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.userInfo);
     return (
       <div>
         <Navbar
