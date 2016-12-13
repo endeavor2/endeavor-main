@@ -16,8 +16,8 @@ class Dashboard extends Component {
         <div className="welcome jumbotron">
         <h1>Endeavor 2: Rise of the Lycans</h1>
         <p>Find GitHub repos based on your interests.</p>
-        <img src={this.props.userInfo.url} className="profilePic" />
-        <ul>
+        <img src={this.props.userInfo.url} id="profilePic" />
+        <ul id="bioInfo">
           <li>Username: {this.props.userInfo.username}</li>
           <li>Name: {this.props.userInfo.name}</li>
           <li>Company: {this.props.userInfo.company}</li>

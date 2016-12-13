@@ -6,7 +6,7 @@ const Project_Interest = require('./../model/projectInterestModel');
 const User_Project = require('./../model/userProjectModel');
 
 function setUserData (user, cb) {
-  const id= user.id;
+  const id = user.id;
   const username = user.username;
   const email_address = user.emails[0].value;
   const name= user._json.name;

@@ -6,11 +6,11 @@ class Splash extends Component {
     return (
 
       <div className="splash" style = {{display: (this.props.showSplash) ? 'block' : 'none'}}>
-        <a
-          className = 'btn-primary'
-          href = '/login'>
-          Log In
-        </a>
+        <div id="main">
+          <h1 id="maintitle">Github Project Match</h1>
+          <img id="splashLogo" src='http://cameronmcefee.com/img/work/the-octocat/codercat.jpg' />
+          <a className="loginButton" href = '/login'>Log In</a>
+        </div>
       </div>
     )
   }

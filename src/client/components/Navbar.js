@@ -9,6 +9,7 @@ class Navbar extends Component {
         <img className="navbar-brand" id="octocat" src='http://cameronmcefee.com/img/work/the-octocat/codercat.jpg' />
         <ul className="nav navbar-nav">
           <li><Link to={'/dashboard'}>Dashboard</Link></li>
+          <li><Link to={'/followering'}>Followering</Link></li>
         </ul>
       </div>
     )

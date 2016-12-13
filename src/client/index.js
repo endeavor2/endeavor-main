@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import App from  './components/App'
 import Login from './components/Splash'
 import Dashboard from './components/Dashboard'
+import Followering from './components/Followering'
 
 // First we import some modules...
 import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
@@ -14,6 +15,7 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Login} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/followering" component={Followering} />
     </Route>
   </Router>
 ), document.getElementById('root'));
